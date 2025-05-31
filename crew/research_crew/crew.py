@@ -1,4 +1,3 @@
-
 # crew/research_crew/crew.py
 from crewai import Agent, Crew, Process, Task
 from crewai_tools import SerperDevTool
@@ -28,30 +27,28 @@ class ResearchCrew:
     def create_analyst(self):
         return Agent(
             role="Analista de Dados e Redator de Relatórios",
-            goal="Analisar achados da pesquisa e criar um relatório abrangente e bem estruturado",
-            backstory="""Você é um analista habilidoso com experiência em interpretação de dados
-            e redação técnica. Tem talento para identificar padrões e extrair insights
-            significativos dos dados de pesquisa, comunicando esses insights de forma
-            eficaz através de relatórios bem elaborados.""",
-            tools=[],
+            goal="Analisar os achados da pesquisa e criar um relatório abrangente e bem estruturado que apresente insights de forma clara e envolvente",
+            backstory="""Você é um analista qualificado, com experiência em interpretação de dados
+            e redação técnica. Você tem talento para identificar padrões
+            e extrair insights significativos dos dados de pesquisa, comunicando
+            esses insights de forma eficaz através de relatórios bem elaborados.""",
             verbose=True,
             allow_delegation=False
         )
 
     def create_tasks(self, topic):
         research_task = Task(
-            description=f"""Conduza uma pesquisa abrangente sobre {topic}.
-            Sua pesquisa deve cobrir:
-            1. Informações básicas e definições
-            2. Desenvolvimentos recentes e tendências atuais
-            3. Principais players e stakeholders
-            4. Desafios e oportunidades
-            5. Perspectivas futuras
-            
-            Certifique-se de usar fontes confiáveis e atualizadas.""",
-            expected_output=f"""Um relatório detalhado de pesquisa sobre {topic} com informações
-            organizadas sobre todos os aspectos solicitados. As informações devem ser
-            precisas, atualizadas e de fontes confiáveis.""",
+            description=f"""Realize uma pesquisa aprofundada sobre {topic}. Foque em:
+            1. Conceitos-chave e definições
+            2. Desenvolvimento histórico e tendências recentes
+            3. Desafios e oportunidades principais
+            4. Aplicações notáveis ou estudos de caso
+            5. Perspectivas futuras e potenciais desenvolvimentos
+
+            Certifique-se de organizar seus achados em um formato estruturado com seções claras.""",
+            expected_output=f"""Um documento de pesquisa abrangente com seções bem organizadas cobrindo
+            todos os aspectos solicitados de {topic}. Inclua fatos específicos, números,
+            e exemplos onde for relevante.""",
             agent=self.agents[0]
         )
 
@@ -74,7 +71,6 @@ class ResearchCrew:
 
     def kickoff(self, inputs):
         topic = inputs.get('topic', 'tópico geral')
-        self.create_agents()
         self.create_tasks(topic)
 
         crew = Crew(
@@ -83,6 +79,6 @@ class ResearchCrew:
             process=Process.sequential,
             verbose=True
         )
-        
+
         result = crew.kickoff()
         return result
