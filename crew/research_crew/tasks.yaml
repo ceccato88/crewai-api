@@ -1,0 +1,34 @@
+  # crew/research_crew/tasks.yaml
+  tarefa_de_pesquisa:
+    description: >
+      Realize uma pesquisa aprofundada sobre {topic}. Foque em:
+      1. Conceitos-chave e definições
+      2. Desenvolvimento histórico e tendências recentes
+      3. Desafios e oportunidades principais
+      4. Aplicações notáveis ou estudos de caso
+      5. Perspectivas futuras e potenciais desenvolvimentos
+
+      Certifique-se de organizar seus achados em um formato estruturado com seções claras.
+    expected_output: >
+      Um documento de pesquisa abrangente com seções bem organizadas cobrindo
+      todos os aspectos solicitados de {topic}. Inclua fatos específicos, números,
+      e exemplos onde for relevante.
+    agent: pesquisador
+
+  tarefa_de_analise:
+    description: >
+      Analise os achados da pesquisa e crie um relatório abrangente sobre {topic}.
+      Seu relatório deve:
+      1. Começar com um resumo executivo
+      2. Incluir todas as informações chave da pesquisa
+      3. Fornecer uma análise perspicaz das tendências e padrões
+      4. Oferecer recomendações ou considerações para o futuro
+      5. Ser formatado de maneira profissional e fácil de ler, com títulos claros
+    expected_output: >
+      Um relatório polido e profissional sobre {topic} que apresenta os achados da pesquisa
+      com análise adicional e insights. O relatório deve ser bem estruturado
+      com um resumo executivo, seções principais e conclusão.
+    agent: analista
+    context:
+      - tarefa_de_pesquisa
+    output_file: output/relatorio.md

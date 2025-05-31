@@ -1,17 +1,24 @@
-# app/main.py
-
 import sys
 import os
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.middleware.cors import CORSMiddleware
 from app.routes.v1_router import v1_router
 from app.settings import api_settings
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+security = HTTPBearer()
+
+BEARER_TOKEN = os.getenv("BEARER_TOKEN")
+
+def verify_token(authorization: HTTPAuthorizationCredentials = Depends(security)):
+    if authorization.credentials != BEARER_TOKEN:  # Comparando com o valor da variável de ambiente
+        raise HTTPException(status_code=403, detail="Token inválido ou expirado")
+    return authorization.credentials
+
 def create_app() -> FastAPI:
-    """Cria a aplicação FastAPI"""
+
     app: FastAPI = FastAPI(
         title=api_settings.title,
         version=api_settings.version,
@@ -20,19 +27,16 @@ def create_app() -> FastAPI:
         openapi_url="/openapi.json" if api_settings.docs_enabled else None,
     )
 
-    # Adiciona o router v1
-    app.include_router(v1_router)
+    app.include_router(v1_router, dependencies=[Depends(verify_token)])
 
-    # Adiciona o Middleware CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=api_settings.cors_origin_list,
+        allow_origins=api_settings.cors_origin_list,  
         allow_credentials=True,
         allow_methods=["*"],
-        allow_headers=["*"],
+        allow_headers=["*"], 
     )
 
     return app
 
-# Cria a instância da aplicação FastAPI
 app = create_app()

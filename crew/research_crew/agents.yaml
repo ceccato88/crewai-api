@@ -1,4 +1,4 @@
-# src/research_crew/agents.yaml
+# crew/research_crew/agents.yaml
 researcher:
   role: >
     Senior Research Specialist for {topic}
