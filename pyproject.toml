@@ -1,8 +1,10 @@
 [project]
 name = "crewai-api"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "CrewAI API"
+authors = [
+    { name = "Ivan Luis Ceccato", email = "ilceccato88@gmail.com" }
+]
 requires-python = ">=3.12"
 dependencies = [
     "crewai-tools>=0.46.0",
