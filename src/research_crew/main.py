@@ -1,4 +1,4 @@
-# src/research_crew/main.py
+
 from research_crew.crew import ResearchCrew
 
 def run(inputs):
@@ -7,7 +7,6 @@ def run(inputs):
     """
     crew = ResearchCrew()
     crew.create_agents()
-    crew.create_tasks()
 
     # Executa o crew com os inputs
     result = crew.kickoff(inputs=inputs)
