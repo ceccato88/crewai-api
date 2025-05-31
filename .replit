@@ -15,11 +15,6 @@ requiredFiles = [".replit", "replit.nix"]
 run = ["python3", "main.py"]
 deploymentTarget = "cloudrun"
 
-[[ports]]
-localPort = 8000
-externalPort = 80
-exposeLocalhost = true
-
 [workflows]
 runButton = "Run API Server"
 

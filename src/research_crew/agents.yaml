@@ -10,7 +10,7 @@ researcher:
     finding relevant information from various sources. You excel at
     organizing information in a clear and structured manner, making
     complex topics accessible to others.
-  llm: provider/model-id  # e.g. openai/gpt-4o, google/gemini-2.0-flash, anthropic/claude...
+  llm: openai/gpt-4o-mini  # e.g. openai/gpt-4o, google/gemini-2.0-flash, anthropic/claude...
 
 analyst:
   role: >
@@ -23,4 +23,4 @@ analyst:
     and technical writing. You have a talent for identifying patterns
     and extracting meaningful insights from research data, then
     communicating those insights effectively through well-crafted reports.
-  llm: provider/model-id  # e.g. openai/gpt-4o, google/gemini-2.0-flash, anthropic/claude...
+  llm: openai/gpt-4o-mini  # e.g. openai/gpt-4o, google/gemini-2.0-flash, anthropic/claude...
