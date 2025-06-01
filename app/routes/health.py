@@ -5,8 +5,5 @@ health_router = APIRouter()
 
 @health_router.get("/health")
 def get_health():
-    """Check the health of the Api"""
-
-    return {
-        "status": "success",
-    }
+    """Rota pública para verificar se a API está viva."""
+    return {"status": "success"}

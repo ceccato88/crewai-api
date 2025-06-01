@@ -1,12 +1,13 @@
 # crew/dev_crew/config/tasks.yaml
 leader_task:
+  name: "leader_task"
   description: >
-    Analisar a solicitação do usuário para uma nova aplicação CrewAI sobre {topic}.
+    Analisar a solicitação do usuário para uma nova aplicação CrewAI sobre {message}.
     Você deve utilizar seu conhecimento aprofundado sobre o framework CrewAI,
     incluindo suas funcionalidades de 'Knowledge', 'Memory', 'Agents', 'Tasks', e 'Tools',
     para desenvolver um plano de projeto detalhado e estratégico para a Meta-Equipe.
-    Se necessário, utilize suas ferramentas de pesquisa web para obter informações
-    adicionais ou contexto específico sobre o {topic} da aplicação solicitada.
+    Se necessário, utilize suas ferramentas de pesquisa web para obter informações adicionais
+    ou contexto específico sobre o {message} da aplicação solicitada.
 
     O plano de projeto deve:
     1. Identificar claramente as fases do projeto de desenvolvimento da nova aplicação CrewAI.
@@ -19,7 +20,7 @@ leader_task:
   expected_output: >
     Um documento de 'Plano de Projeto Estratégico' em formato Markdown.
     Este plano deve detalhar:
-    - Sumário da Solicitação do Usuário e Objetivos da Aplicação sobre {topic}.
+    - Sumário da Solicitação do Usuário e Objetivos da Aplicação sobre {message}.
     - Fases do Projeto (ex: Concepção, Design dos Agentes, Desenvolvimento, Testes, Documentação).
     - Matriz de Responsabilidades (descrição dos papéis dos agentes especialistas na Meta-Equipe e suas principais contribuições).
     - Cronograma Estimado (uma visão geral das durações esperadas para as fases).
@@ -27,5 +28,4 @@ leader_task:
     - Pontos de Controle e Métricas de Sucesso.
   agent: leader
   markdown: True
-  context: [None]
   output_file: output/plano_de_projeto_estrategico.md

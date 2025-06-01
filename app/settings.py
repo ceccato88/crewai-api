@@ -5,12 +5,9 @@ from pydantic_settings import BaseSettings
 from pydantic import ValidationInfo
 
 class ApiSettings(BaseSettings):
-
     title: str = "CrewAI API"
     version: str = "1.0"
-
     docs_enabled: bool = True
-
     cors_origin_list: Optional[List[str]] = Field(None, validate_default=True)
 
     @field_validator("cors_origin_list", mode="before")
@@ -18,7 +15,6 @@ class ApiSettings(BaseSettings):
         valid_cors = cors_origin_list or []
         valid_cors.append("http://localhost")
         valid_cors.append("http://localhost:3000")
-
         return valid_cors
 
 api_settings = ApiSettings()
