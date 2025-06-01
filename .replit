@@ -1,5 +1,5 @@
-entrypoint = "main.py"
 modules = ["python-3.12", "bash"]
+run = "uvicorn main:app --host 0.0.0.0 --port 3000"
 
 [nix]
 channel = "stable-24_05"
@@ -12,7 +12,7 @@ language = "python3"
 requiredFiles = [".replit", "replit.nix"]
 
 [deployment]
-run = ["python3", "main.py"]
+run = ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 3000"]
 deploymentTarget = "cloudrun"
 
 [workflows]
