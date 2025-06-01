@@ -1,0 +1,23 @@
+  # crew/dev_crew/config/tasks.yaml
+  leader_task:
+    description: >
+      Analisar a solicitação do usuário para uma nova aplicação CrewAI sobre {topic}.
+      Considerar que a base de conhecimento específica sobre 'Knowledge/Memory' do CrewAI
+      está acessível online na URL '{KNOWLEDGE_MDX_URL_RAW}'. Você deve utilizar
+      suas ferramentas de extração de conteúdo web para acessar e analisar as informações desta URL.
+      Desenvolver um plano de projeto detalhado para a Meta-Equipe. Este plano deve:
+      1. Identificar fases do projeto.
+      2. Atribuir responsabilidades aos especialistas.
+      3. Definir entregáveis e critérios de aceitação.
+      4. Estabelecer pontos de verificação/revisão.
+      5. Delinear como os documentos de referência CrewAI (incluindo o acesso ao conteúdo
+      da URL '{KNOWLEDGE_MDX_URL_RAW}' através da extração de seu conteúdo) serão aplicados.
+
+      O plano deve ser o roteiro completo e acionável.
+    expected_output: >
+      Um documento de 'Plano de Projeto Estratégico' em formato Markdown.
+      Contendo: Sumário da Solicitação, Fases, Matriz de Responsabilidades,
+      Cronograma Estimado, Estratégia de Aplicação dos Documentos CrewAI (incluindo
+      o acesso e utilização das informações da URL '{KNOWLEDGE_MDX_URL_RAW}'), Pontos de Controle.
+    agent: leader
+    output_file: output/plano_de_projeto_estrategico.md

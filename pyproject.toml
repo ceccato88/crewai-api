@@ -8,11 +8,12 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "crewai-tools>=0.46.0",
     "crewai>=0.121.1",
+    "crewai-tools>=0.46.0",
     "fastapi>=0.115.12",
-    "pydantic-settings>=2.9.1",
     "pydantic>=2.11.5",
+    "pydantic-settings>=2.9.1",
+    "pysbd>=0.3.4",
     "starlette>=0.46.2",
     "uvicorn>=0.34.2",
 ]
