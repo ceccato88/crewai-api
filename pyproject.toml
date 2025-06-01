@@ -1,7 +1,7 @@
 [project]
 name = "crewai-api"
 version = "0.1.0"
-description = "CrewAI API"
+description = "Crewai API"
 authors = [
     { name = "Ivan Luis Ceccato", email = "ilceccato88@gmail.com" }
 ]
