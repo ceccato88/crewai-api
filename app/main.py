@@ -1,4 +1,4 @@
-#routes/main.py
+#app/main.py
 import sys
 import os
 from fastapi import FastAPI, Depends, HTTPException
