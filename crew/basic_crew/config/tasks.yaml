@@ -1,13 +1,26 @@
+# ---------------------------------------------------------------------------
 # crew/basic_crew/config/tasks.yaml
+# Arquivo de configuração YAML para definir as tarefas.
+# ---------------------------------------------------------------------------
 basic_task:
-  name: "Basic task"
+  name: "Atendimento Básico com Memória Zep"
   description: >
-    Cumprimente o usuário e responda o usuário.
+    1. Analise a MENSAGEM DO USUÁRIO (`{message}`).
+    2. Considere o CONTEXTO DA MEMÓRIA ZEP (`{zep_context}`) fornecido.
+    3. Se a mensagem do usuário for uma pergunta ou solicitação que pode ser respondida
+       com o contexto Zep ou conhecimento geral, formule uma resposta direta e clara.
+    4. Se a mensagem do usuário exigir informações atuais ou dados específicos não presentes
+       no contexto Zep, utilize a ferramenta SerperDevTool para buscar na web.
+    5. Formule uma resposta final que cumpra o `expected_output`.
   expected_output: >
-    Uma mensagem que:
-    1. Comece com uma saudação (por exemplo, "Olá!").
-    2. Inclua uma resposta clara e com palavras de fácil entendimento.
-    2. Faça referência a fatos ou dados recentes obtidos via SerperDevTool, se necessário.
-  # context: []
-  markdown: true
-  agent: basic_agent
+    Uma mensagem de resposta para o usuário que:
+    1. Comece com uma saudação amigável (por exemplo, "Olá!", "Oi!").
+    2. Responda diretamente à `{message}` do usuário.
+    3. Incorpore informações do `{zep_context}` de forma natural, se relevante para a resposta.
+    4. Se a SerperDevTool foi usada, mencione brevemente a informação encontrada que embasou a resposta.
+    5. Seja clara, concisa e com palavras de fácil entendimento.
+    6. Termine de forma cordial.
+  markdown: true # Indica que a saída da tarefa pode usar formatação Markdown
+  agent: basic_agent # Associa esta tarefa ao 'basic_agent' definido em agents.yaml
+  # Os inputs {message} e {zep_context} são passados para kickoff_async
+  # e o CrewAI os injeta aqui automaticamente.
