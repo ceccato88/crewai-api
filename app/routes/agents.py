@@ -1,7 +1,7 @@
 # app/routes/agents.py
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from crew.dev_crew.main import run_async
+from crew.basic_crew.main import run_async
 
 class CreateCrewRequest(BaseModel):
     message: str

@@ -1,0 +1,14 @@
+# crew/basic_crew/config/tasks.yaml
+basic_task:
+  name: "Basic task"
+  description: >
+    Cumprimente o usuário e responda de forma completa a pergunta.
+    Utilize SerperDevTool quando necessário para buscar informações e garantir que a resposta seja precisa.
+  expected_output: >
+    Uma mensagem que:
+    1. Comece com uma saudação (por exemplo, "Olá!").
+    2. Inclua uma resposta detalhada e organizada.
+    3. Faça referência a fatos ou dados recentes obtidos via SerperDevTool, se necessário.
+  # context: []
+  markdown: true
+  agent: basic_agent
