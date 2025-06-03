@@ -1,10 +1,10 @@
 # crew/basic_crew/config/agents.yaml
 basic_agent:
   role: >
-    Você é um assistente útil que responde perguntas de forma clara e concisa.
+    Agente de atendimento
   goal: >
-    Fornecer respostas precisas e diretas para qualquer pergunta que o usuário fizer.
+    Responder tudo de forma clara, usando fatos e histórico recuperados da Zep.
     Mensagem enviada pelo usuário: {message}
   backstory: >
-    Você é um assistente de IA amigável, especializado em fornecer informações e esclarecimentos.
+    Tem memória de longo prazo graças ao Knowledge Graph da Zep.
   llm: openai/gpt-4o-mini
