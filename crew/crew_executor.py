@@ -8,8 +8,8 @@ from zep_cloud.types import Message as ZepMessage
 from zep_cloud.errors import NotFoundError
 import logging
 from typing import Optional, Literal, Any, Dict
-from datetime import datetime, timezone # Adicionado para manipulação de data/hora
-import pytz # Adicionado para fusos horários
+from datetime import datetime, timezone
+import pytz
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -65,32 +65,30 @@ async def format_session_messages_to_context(session_messages_response, history_
     Formata as mensagens da sessão Zep em uma string de contexto, com timestamps no fuso de São Paulo.
     """
     context_parts = [f"--- Início Histórico Recente da Sessão Zep (últimas {history_limit} mensagens, Fuso Horário de São Paulo) ---"]
+    
     if session_messages_response and session_messages_response.messages:
         for msg in session_messages_response.messages:
             timestamp_str = "Timestamp indisponível"
             if msg.created_at:
                 try:
-                    # Converte a string ISO 8601 UTC para datetime object
                     dt_utc = datetime.fromisoformat(msg.created_at.replace("Z", "+00:00"))
-                    # Converte para o fuso horário de São Paulo
                     dt_sao_paulo = dt_utc.astimezone(SAO_PAULO_TZ)
                     timestamp_str = dt_sao_paulo.strftime("%d/%m/%Y %H:%M:%S %Z%z")
                 except ValueError:
                     logger.warning(f"Não foi possível parsear o timestamp: {msg.created_at}")
-                    timestamp_str = msg.created_at # Mantém original se falhar
+                    timestamp_str = msg.created_at  # Mantém original se falhar
 
-            role_display = msg.role if msg.role and msg.role != msg.user_id else (msg.role_type.capitalize() if msg.role_type else "Desconhecido")
-            if role_display == "User" and msg.user_id: # Para garantir que o user_id não apareça como role se for "User"
-                 pass # Role já é "User"
-            elif msg.role_type == "user" and msg.user_id: # Se o role for o user_id, mas o role_type é user
-                role_display = "User"
-
-
-            context_parts.append(
-                f"  [{timestamp_str}] {role_display}: {msg.content}"
-            )
+            role_display = "Desconhecido"  # Fallback
+            if hasattr(msg, 'role'):
+                if hasattr(msg, 'user_id') and msg.role != msg.user_id:
+                    role_display = msg.role
+                elif hasattr(msg, 'role_type'):
+                    role_display = msg.role_type.capitalize() if msg.role_type else "Desconhecido"
+            
+            context_parts.append(f"  [{timestamp_str}] {role_display}: {msg.content}")
     else:
         context_parts.append("Nenhum histórico de mensagens encontrado para esta sessão na Zep.")
+    
     context_parts.append("--- Fim Histórico Recente da Sessão Zep ---")
     return "\n".join(context_parts)
 
