@@ -4,14 +4,16 @@
 # ---------------------------------------------------------------------------
 from crew.basic_crew.crew import BasicCrew
 from crew.zep_client import zep_client
-from zep_cloud.types import Message as ZepMessage
+from zep_cloud.types import Message as ZepMessage, RoleType # Importa RoleType para melhor tipagem
 from zep_cloud.errors import NotFoundError
+from crewai.project import CrewBase # Para tipagem de available_crews
 import logging
-from typing import Optional, Literal, Any, Dict
-from datetime import datetime, timezone
+from typing import Optional, Literal, Any, Dict, Type # Adicionado Type
+from datetime import datetime
 import pytz
 
-logging.basicConfig(level=logging.INFO)
+# O logging.basicConfig foi movido para app/main.py para centralização.
+# Se precisar de configuração específica para este módulo, use logging.getLogger.
 logger = logging.getLogger(__name__)
 
 ZepSearchScope = Literal["edges", "nodes"]
@@ -71,19 +73,24 @@ async def format_session_messages_to_context(session_messages_response, history_
             timestamp_str = "Timestamp indisponível"
             if msg.created_at:
                 try:
-                    dt_utc = datetime.fromisoformat(msg.created_at.replace("Z", "+00:00"))
+                    # Python 3.7+ datetime.fromisoformat lida com 'Z'
+                    dt_utc = datetime.fromisoformat(msg.created_at.replace("Z", "+00:00")) 
                     dt_sao_paulo = dt_utc.astimezone(SAO_PAULO_TZ)
                     timestamp_str = dt_sao_paulo.strftime("%d/%m/%Y %H:%M:%S %Z%z")
                 except ValueError:
                     logger.warning(f"Não foi possível parsear o timestamp: {msg.created_at}")
                     timestamp_str = msg.created_at  # Mantém original se falhar
 
-            role_display = "Desconhecido"  # Fallback
-            if hasattr(msg, 'role'):
-                if hasattr(msg, 'user_id') and msg.role != msg.user_id:
-                    role_display = msg.role
-                elif hasattr(msg, 'role_type'):
-                    role_display = msg.role_type.capitalize() if msg.role_type else "Desconhecido"
+            role_display = "Desconhecido"
+            # Lógica de role_display aprimorada
+            if hasattr(msg, 'role') and msg.role:
+                role_display = msg.role.capitalize()
+            elif hasattr(msg, 'role_type') and msg.role_type:
+                # Se role_type for um enum (como zep_cloud.types.RoleType), acesse .value
+                if isinstance(msg.role_type, RoleType) and hasattr(msg.role_type, 'value'):
+                        role_display = msg.role_type.value.capitalize()
+                else: # Caso contrário, tente converter para string
+                        role_display = str(msg.role_type).capitalize()
             
             context_parts.append(f"  [{timestamp_str}] {role_display}: {msg.content}")
     else:
@@ -98,13 +105,16 @@ async def execute_crew(
     inputs: dict,
     user_id: str,
     session_id: str,
-    history_limit: Optional[int] = 10
+    history_limit: Optional[int] = 10,
+    zep_graph_search_scope_override: Optional[ZepSearchScope] = None,
+    zep_graph_search_reranker_override: Optional[ZepReranker] = None,
+    zep_graph_search_limit_override: Optional[int] = None
 ):
     if not zep_client:
         logger.error("Cliente Zep não inicializado. Verifique a ZEP_API_KEY.")
         raise ValueError("Cliente Zep não está configurado, impossível executar o crew com memória.")
 
-    available_crews: Dict[str, Any] = { "basic": BasicCrew }
+    available_crews: Dict[str, Type[CrewBase]] = { "basic": BasicCrew } # Tipagem aprimorada
     CrewClass = available_crews.get(crew_name.lower())
     if not CrewClass:
         logger.error(f"Crew com nome '{crew_name}' não encontrado.")
@@ -115,7 +125,8 @@ async def execute_crew(
         try:
             await zep_client.user.get(user_id)
         except NotFoundError:
-            await zep_client.user.add(user_id=user_id, email=f"{user_id}@example.com", first_name=user_id) # Adiciona user_id como first_name para Zep
+            # Adiciona user_id como first_name e email fictício para Zep, se necessário
+            await zep_client.user.add(user_id=user_id, email=f"{user_id}@example.com", first_name=user_id)
         try:
             await zep_client.memory.get_session(session_id)
         except NotFoundError:
@@ -125,15 +136,24 @@ async def execute_crew(
         query_for_graph = user_message_content
 
         # Bloco 2: Adicionar mensagem atual do usuário à memória Zep
-        # Role padronizado para "User"
+        # MODIFICAÇÃO AQUI: Usar string literal "user" para role_type
         user_zep_message = ZepMessage(role="User", role_type="user", content=user_message_content, user_id=user_id)
         await zep_client.memory.add(session_id, messages=[user_zep_message])
-        logger.info(f"Mensagem do usuário '{user_message_content}' (Role: User) adicionada à sessão {session_id} no Zep.")
+        logger.info(f"Mensagem do usuário '{user_message_content}' (Role: User, RoleType: user) adicionada à sessão {session_id} no Zep.")
         
         # Bloco 3: Recuperar contexto da Zep
+        # Parâmetros padrão para busca no grafo Zep
         zep_graph_search_scope: ZepSearchScope = "edges"
         zep_graph_search_reranker: ZepReranker = "rrf"
         zep_graph_search_limit: int = 5
+
+        # Aplicar overrides se fornecidos
+        if zep_graph_search_scope_override:
+            zep_graph_search_scope = zep_graph_search_scope_override
+        if zep_graph_search_reranker_override:
+            zep_graph_search_reranker = zep_graph_search_reranker_override
+        if zep_graph_search_limit_override:
+            zep_graph_search_limit = zep_graph_search_limit_override
 
         graph_search_context_str = "Contexto da Busca no Grafo Zep indisponível."
         try:
@@ -187,16 +207,26 @@ async def execute_crew(
             elif isinstance(crew_result_text, str):
                 converted_result_text = crew_result_text
             else:
-                try: converted_result_text = str(crew_result_text)
-                except: pass
+                try:
+                    converted_result_text = str(crew_result_text)
+                except Exception as e_conv: # Tratamento de erro aprimorado
+                    logger.warning(f"Não foi possível converter crew_result_text para string diretamente: {type(crew_result_text)}. Erro: {e_conv}", exc_info=True)
+                    converted_result_text = "" # Fallback para string vazia
+        
         final_text_to_save = converted_result_text.strip()
         if final_text_to_save:
-            # Ao salvar a resposta do assistente, o role é "AI Assistant"
+            # MODIFICAÇÃO AQUI: Usar string literal "assistant" para role_type
             assistant_zep_message = ZepMessage(role="AI Assistant", role_type="assistant", content=final_text_to_save)
-            try: await zep_client.memory.add(session_id, messages=[assistant_zep_message])
-            except Exception as e_zep_add: logger.error(f"Erro ao adicionar msg do assistente ao Zep: {e_zep_add}", exc_info=True)
+            try:
+                await zep_client.memory.add(session_id, messages=[assistant_zep_message])
+                logger.info(f"Mensagem do assistente (Role: AI Assistant, RoleType: assistant) adicionada à sessão {session_id} no Zep.")
+            except Exception as e_zep_add:
+                logger.error(f"Erro ao adicionar msg do assistente ao Zep: {e_zep_add}", exc_info=True)
         else:
             logger.warning(f"Resultado do Crew '{crew_name}' (após conversão e strip) é vazio ou None, não será salvo no Zep.")
         return crew_result_text
-    except ValueError as ve: raise
-    except Exception as e: raise
+    except ValueError: # Re-raise ValueError para ser pego pelo endpoint
+        raise
+    except Exception as e: # Re-raise outras exceções para serem pegas pelo endpoint
+        logger.error(f"Exceção inesperada ao executar crew '{crew_name}': {e}", exc_info=True)
+        raise

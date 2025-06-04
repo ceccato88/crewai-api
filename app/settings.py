@@ -3,7 +3,7 @@
 # Define as configurações da aplicação usando Pydantic BaseSettings.
 # ---------------------------------------------------------------------------
 from typing import List, Optional
-from pydantic import Field, field_validator, ValidationInfo
+from pydantic import Field, field_validator, ValidationInfo # Uso de Field diretamente (Pydantic v2+)
 from pydantic_settings import BaseSettings
 
 class ApiSettings(BaseSettings):
@@ -17,9 +17,10 @@ class ApiSettings(BaseSettings):
     def set_cors_origin_list(cls, cors_origin_list, info: ValidationInfo):
         valid_cors = cors_origin_list or []
         default_origins = ["http://localhost", "http://localhost:3000"]
+        # Garante que as origens padrão sejam adicionadas se não estiverem presentes
         for origin in default_origins:
             if origin not in valid_cors:
                 valid_cors.append(origin)
-        return list(set(valid_cors))
+        return list(set(valid_cors)) # Remove duplicatas caso já existam
 
 api_settings = ApiSettings()

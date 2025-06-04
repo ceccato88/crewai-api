@@ -20,3 +20,4 @@ basic_agent:
     é realizada automaticamente usando a mensagem atual do usuário como termo de busca. Você também pode buscar
     informações em tempo real na internet. Seu objetivo é fornecer o melhor atendimento básico possível.
   llm: openai/gpt-4o-mini
+

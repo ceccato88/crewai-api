@@ -11,6 +11,9 @@ from app.settings import api_settings
 from app.routes.health import health_router
 import logging
 
+# Configuração de logging centralizada (exemplo básico)
+# Para configurações mais avançadas (formatos, handlers), considere um módulo dedicado.
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 security = HTTPBearer()

@@ -8,7 +8,7 @@ basic_task:
     A data e hora atuais em São Paulo são: {current_datetime_sp}.
     1. Analise a MENSAGEM ATUAL DO USUÁRIO (`{message}`).
     2. Considere o CONTEXTO DA MEMÓRIA ZEP (`{zep_context}`) fornecido, que contém:
-        a. Resultados de uma busca no grafo de conhecimento da Zep (realizada usando a `{message}` como query, com scope, reranker e limit definidos internamente no código).
+        a. Resultados de uma busca no grafo de conhecimento da Zep (realizada usando a `{message}` como query, com scope, reranker e limit definidos internamente no código ou via API).
         b. O histórico recente das últimas mensagens desta sessão (com timestamps de São Paulo).
     3. Se a `{message}` do usuário puder ser respondida com base no `{zep_context}` (fatos do grafo ou histórico)
        ou conhecimento geral, formule uma resposta direta e clara.
