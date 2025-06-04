@@ -2,7 +2,7 @@
 #    ./scripts/generate_requirements.sh upgrade
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.12.6
+aiohttp==3.12.7
     # via
     #   auth0-python
     #   instructor
@@ -29,7 +29,6 @@ asttokens==3.0.0
 attrs==25.3.0
     # via
     #   aiohttp
-    #   jsonlines
     #   jsonschema
     #   referencing
 auth0-python==4.9.0
@@ -39,9 +38,7 @@ backoff==2.2.1
 bcrypt==4.3.0
     # via chromadb
 beautifulsoup4==4.13.4
-    # via
-    #   docling
-    #   embedchain
+    # via embedchain
 blinker==1.9.0
     # via crewai
 build==1.2.2.post1
@@ -52,7 +49,6 @@ cachetools==5.5.2
     #   gptcache
 certifi==2025.4.26
     # via
-    #   docling
     #   httpcore
     #   httpx
     #   kubernetes
@@ -70,11 +66,10 @@ chromadb==0.5.23
     #   crewai
     #   crewai-tools
     #   embedchain
-click==8.1.8
+click==8.2.1
     # via
     #   crewai
     #   crewai-tools
-    #   docling
     #   litellm
     #   typer
     #   uvicorn
@@ -104,31 +99,16 @@ deprecated==1.2.18
     #   opentelemetry-semantic-conventions
 deprecation==2.1.0
     # via lancedb
-dill==0.4.0
-    # via multiprocess
 distro==1.9.0
     # via
     #   openai
     #   posthog
 docker==7.1.0
     # via crewai-tools
-docling==2.34.0
-    # via crewai-api (pyproject.toml)
-docling-core==2.32.0
-    # via
-    #   docling
-    #   docling-ibm-models
-    #   docling-parse
-docling-ibm-models==3.4.3
-    # via docling
-docling-parse==4.0.1
-    # via docling
 docstring-parser==0.16
     # via instructor
 durationpy==0.10
     # via kubernetes
-easyocr==1.7.2
-    # via docling
 embedchain==0.1.128
     # via crewai-tools
 et-xmlfile==2.0.0
@@ -142,22 +122,15 @@ fastapi==0.115.12
 fastavro==1.11.1
     # via cohere
 filelock==3.18.0
-    # via
-    #   huggingface-hub
-    #   torch
-    #   transformers
-filetype==1.2.0
-    # via docling
+    # via huggingface-hub
 flatbuffers==25.2.10
     # via onnxruntime
-frozenlist==1.6.0
+frozenlist==1.6.2
     # via
     #   aiohttp
     #   aiosignal
 fsspec==2025.5.1
-    # via
-    #   huggingface-hub
-    #   torch
+    # via huggingface-hub
 google-auth==2.40.2
     # via kubernetes
 googleapis-common-protos==1.70.0
@@ -168,7 +141,7 @@ gptcache==0.1.44
     # via embedchain
 greenlet==3.2.2
     # via sqlalchemy
-grpcio==1.71.0
+grpcio==1.72.1
     # via
     #   chromadb
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -179,7 +152,7 @@ h11==0.16.0
     #   uvicorn
 h2==4.2.0
     # via httpx
-hf-xet==1.1.2
+hf-xet==1.1.3
     # via huggingface-hub
 hpack==4.1.0
     # via h2
@@ -195,16 +168,13 @@ httpx==0.28.1
     #   litellm
     #   openai
     #   qdrant-client
+    #   zep-cloud
 httpx-sse==0.4.0
     # via
     #   cohere
     #   langchain-community
-huggingface-hub==0.32.3
-    # via
-    #   docling
-    #   docling-ibm-models
-    #   tokenizers
-    #   transformers
+huggingface-hub==0.32.4
+    # via tokenizers
 humanfriendly==10.0
     # via coloredlogs
 hyperframe==6.1.0
@@ -215,8 +185,6 @@ idna==3.10
     #   httpx
     #   requests
     #   yarl
-imageio==2.37.0
-    # via scikit-image
 importlib-metadata==8.6.1
     # via
     #   litellm
@@ -236,7 +204,6 @@ jinja2==3.1.6
     #   instructor
     #   litellm
     #   pyvis
-    #   torch
 jiter==0.8.2
     # via
     #   instructor
@@ -245,22 +212,16 @@ json-repair==0.46.0
     # via crewai
 json5==0.12.0
     # via crewai
-jsonlines==3.1.0
-    # via docling-ibm-models
 jsonpatch==1.33
     # via langchain-core
-jsonpickle==4.1.0
+jsonpickle==4.1.1
     # via pyvis
 jsonpointer==3.0.0
     # via jsonpatch
 jsonref==1.1.0
-    # via
-    #   crewai
-    #   docling-core
+    # via crewai
 jsonschema==4.24.0
-    # via
-    #   docling-core
-    #   litellm
+    # via litellm
 jsonschema-specifications==2025.4.1
     # via jsonschema
 kubernetes==32.0.1
@@ -291,29 +252,18 @@ langchain-openai==0.2.14
     # via embedchain
 langchain-text-splitters==0.3.8
     # via langchain
-langsmith==0.3.43
+langsmith==0.3.44
     # via
     #   embedchain
     #   langchain
     #   langchain-community
     #   langchain-core
-latex2mathml==3.78.0
-    # via docling-core
-lazy-loader==0.4
-    # via scikit-image
 litellm==1.68.0
     # via crewai
-lxml==5.4.0
-    # via
-    #   docling
-    #   python-docx
-    #   python-pptx
 mako==1.3.10
     # via alembic
 markdown-it-py==3.0.0
     # via rich
-marko==2.1.3
-    # via docling
 markupsafe==3.0.2
     # via
     #   jinja2
@@ -324,91 +274,34 @@ matplotlib-inline==0.1.7
     # via ipython
 mdurl==0.1.2
     # via markdown-it-py
-mem0ai==0.1.102
+mem0ai==0.1.104
     # via embedchain
 mmh3==5.1.0
     # via chromadb
 monotonic==1.6
     # via posthog
-mpire==2.10.2
-    # via semchunk
 mpmath==1.3.0
     # via sympy
 multidict==6.4.4
     # via
     #   aiohttp
     #   yarl
-multiprocess==0.70.18
-    # via mpire
 mypy-extensions==1.1.0
     # via typing-inspect
 networkx==3.5
-    # via
-    #   pyvis
-    #   scikit-image
-    #   torch
-ninja==1.11.1.4
-    # via easyocr
+    # via pyvis
 nodeenv==1.9.1
     # via pyright
 numpy==2.2.6
     # via
     #   chroma-hnswlib
     #   chromadb
-    #   docling-ibm-models
-    #   easyocr
     #   gptcache
-    #   imageio
     #   lancedb
     #   langchain-community
     #   onnxruntime
-    #   opencv-python-headless
     #   pandas
     #   qdrant-client
-    #   safetensors
-    #   scikit-image
-    #   scipy
-    #   shapely
-    #   tifffile
-    #   torchvision
-    #   transformers
-nvidia-cublas-cu12==12.6.4.1
-    # via
-    #   nvidia-cudnn-cu12
-    #   nvidia-cusolver-cu12
-    #   torch
-nvidia-cuda-cupti-cu12==12.6.80
-    # via torch
-nvidia-cuda-nvrtc-cu12==12.6.77
-    # via torch
-nvidia-cuda-runtime-cu12==12.6.77
-    # via torch
-nvidia-cudnn-cu12==9.5.1.17
-    # via torch
-nvidia-cufft-cu12==11.3.0.4
-    # via torch
-nvidia-cufile-cu12==1.11.1.6
-    # via torch
-nvidia-curand-cu12==10.3.7.77
-    # via torch
-nvidia-cusolver-cu12==11.7.1.2
-    # via torch
-nvidia-cusparse-cu12==12.5.4.2
-    # via
-    #   nvidia-cusolver-cu12
-    #   torch
-nvidia-cusparselt-cu12==0.6.3
-    # via torch
-nvidia-nccl-cu12==2.26.2
-    # via torch
-nvidia-nvjitlink-cu12==12.6.85
-    # via
-    #   nvidia-cufft-cu12
-    #   nvidia-cusolver-cu12
-    #   nvidia-cusparse-cu12
-    #   torch
-nvidia-nvtx-cu12==12.6.77
-    # via torch
 oauthlib==3.2.2
     # via
     #   kubernetes
@@ -424,14 +317,8 @@ openai==1.75.0
     #   langchain-openai
     #   litellm
     #   mem0ai
-opencv-python-headless==4.11.0.86
-    # via
-    #   docling-ibm-models
-    #   easyocr
 openpyxl==3.1.5
-    # via
-    #   crewai
-    #   docling
+    # via crewai
 opentelemetry-api==1.33.1
     # via
     #   chromadb
@@ -496,17 +383,11 @@ packaging==24.2
     #   lancedb
     #   langchain-core
     #   langsmith
-    #   lazy-loader
     #   marshmallow
     #   onnxruntime
     #   opentelemetry-instrumentation
-    #   scikit-image
-    #   transformers
 pandas==2.2.3
-    # via
-    #   docling
-    #   docling-core
-    #   langchain-cohere
+    # via langchain-cohere
 parso==0.8.4
     # via jedi
 pdfminer-six==20250327
@@ -516,19 +397,7 @@ pdfplumber==0.11.6
 pexpect==4.9.0
     # via ipython
 pillow==11.2.1
-    # via
-    #   docling
-    #   docling-core
-    #   docling-ibm-models
-    #   docling-parse
-    #   easyocr
-    #   imageio
-    #   pdfplumber
-    #   python-pptx
-    #   scikit-image
-    #   torchvision
-pluggy==1.6.0
-    # via docling
+    # via pdfplumber
 portalocker==2.10.1
     # via qdrant-client
 posthog==3.25.0
@@ -560,8 +429,6 @@ pyasn1==0.6.1
     #   rsa
 pyasn1-modules==0.4.2
     # via google-auth
-pyclipper==1.3.0.post6
-    # via easyocr
 pycparser==2.22
     # via cffi
 pydantic==2.11.5
@@ -571,10 +438,6 @@ pydantic==2.11.5
     #   cohere
     #   crewai
     #   crewai-tools
-    #   docling
-    #   docling-core
-    #   docling-ibm-models
-    #   docling-parse
     #   fastapi
     #   instructor
     #   lancedb
@@ -587,6 +450,7 @@ pydantic==2.11.5
     #   openai
     #   pydantic-settings
     #   qdrant-client
+    #   zep-cloud
 pydantic-core==2.33.2
     # via
     #   cohere
@@ -595,24 +459,18 @@ pydantic-core==2.33.2
 pydantic-settings==2.9.1
     # via
     #   crewai-api (pyproject.toml)
-    #   docling
     #   langchain-community
 pygments==2.19.1
     # via
     #   ipython
     #   ipython-pygments-lexers
-    #   mpire
     #   rich
 pyjwt==2.10.1
     # via auth0-python
-pylatexenc==2.10
-    # via docling
 pypdf==5.6.0
     # via embedchain
 pypdfium2==4.30.1
-    # via
-    #   docling
-    #   pdfplumber
+    # via pdfplumber
 pypika==0.48.9
     # via chromadb
 pyproject-hooks==1.2.0
@@ -623,15 +481,11 @@ pysbd==0.3.4
     # via
     #   crewai-api (pyproject.toml)
     #   embedchain
-python-bidi==0.6.6
-    # via easyocr
 python-dateutil==2.9.0.post0
     # via
     #   kubernetes
     #   pandas
     #   posthog
-python-docx==1.1.2
-    # via docling
 python-dotenv==1.1.0
     # via
     #   crewai
@@ -639,12 +493,11 @@ python-dotenv==1.1.0
     #   litellm
     #   pydantic-settings
     #   uvicorn
-python-pptx==1.0.2
-    # via docling
 pytube==15.0.0
     # via crewai-tools
 pytz==2025.2
     # via
+    #   crewai-api (pyproject.toml)
     #   mem0ai
     #   pandas
 pyvis==0.3.2
@@ -652,14 +505,11 @@ pyvis==0.3.2
 pyyaml==6.0.2
     # via
     #   chromadb
-    #   docling-core
-    #   easyocr
     #   huggingface-hub
     #   kubernetes
     #   langchain
     #   langchain-community
     #   langchain-core
-    #   transformers
     #   uvicorn
 qdrant-client==1.14.2
     # via mem0ai
@@ -671,14 +521,12 @@ regex==2024.11.6
     # via
     #   crewai
     #   tiktoken
-    #   transformers
 requests==2.32.3
     # via
     #   auth0-python
     #   cohere
     #   crewai-tools
     #   docker
-    #   docling
     #   gptcache
     #   huggingface-hub
     #   instructor
@@ -691,7 +539,6 @@ requests==2.32.3
     #   requests-oauthlib
     #   requests-toolbelt
     #   tiktoken
-    #   transformers
 requests-oauthlib==2.0.0
     # via kubernetes
 requests-toolbelt==1.0.0
@@ -708,29 +555,8 @@ rpds-py==0.25.1
     #   referencing
 rsa==4.9.1
     # via google-auth
-rtree==1.4.0
-    # via docling
-safetensors==0.5.3
-    # via
-    #   docling-ibm-models
-    #   transformers
 schema==0.7.7
     # via embedchain
-scikit-image==0.25.2
-    # via easyocr
-scipy==1.15.3
-    # via
-    #   docling
-    #   easyocr
-    #   scikit-image
-semchunk==2.2.2
-    # via docling-core
-setuptools==80.9.0
-    # via
-    #   torch
-    #   triton
-shapely==2.1.1
-    # via easyocr
 shellingham==1.5.4
     # via typer
 six==1.17.0
@@ -758,22 +584,15 @@ starlette==0.46.2
     #   crewai-api (pyproject.toml)
     #   fastapi
 sympy==1.14.0
-    # via
-    #   onnxruntime
-    #   torch
+    # via onnxruntime
 tabulate==0.9.0
-    # via
-    #   docling-core
-    #   docling-parse
-    #   langchain-cohere
+    # via langchain-cohere
 tenacity==9.1.2
     # via
     #   chromadb
     #   instructor
     #   langchain-community
     #   langchain-core
-tifffile==2025.5.26
-    # via scikit-image
 tiktoken==0.9.0
     # via
     #   langchain-openai
@@ -783,58 +602,33 @@ tokenizers==0.20.3
     #   chromadb
     #   cohere
     #   litellm
-    #   transformers
 tomli==2.2.1
     # via crewai
 tomli-w==1.2.0
     # via crewai
-torch==2.7.0
-    # via
-    #   docling-ibm-models
-    #   easyocr
-    #   safetensors
-    #   torchvision
-torchvision==0.22.0
-    # via
-    #   docling-ibm-models
-    #   easyocr
 tqdm==4.67.1
     # via
     #   chromadb
-    #   docling
-    #   docling-ibm-models
     #   huggingface-hub
     #   lancedb
-    #   mpire
     #   openai
-    #   semchunk
-    #   transformers
 traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-transformers==4.46.3
-    # via
-    #   docling-core
-    #   docling-ibm-models
-triton==3.3.0
-    # via torch
-typer==0.15.4
+typer==0.16.0
     # via
     #   chromadb
-    #   docling
-    #   docling-core
     #   instructor
-types-requests==2.32.0.20250515
+types-requests==2.32.0.20250602
     # via cohere
-typing-extensions==4.13.2
+typing-extensions==4.14.0
     # via
     #   alembic
     #   anyio
     #   beautifulsoup4
     #   chromadb
     #   cohere
-    #   docling-core
     #   fastapi
     #   huggingface-hub
     #   langchain-core
@@ -843,14 +637,12 @@ typing-extensions==4.13.2
     #   pydantic
     #   pydantic-core
     #   pyright
-    #   python-docx
-    #   python-pptx
     #   referencing
     #   sqlalchemy
-    #   torch
     #   typer
     #   typing-inspect
     #   typing-inspection
+    #   zep-cloud
 typing-inspect==0.9.0
     # via dataclasses-json
 typing-inspection==0.4.1
@@ -867,7 +659,7 @@ urllib3==2.4.0
     #   qdrant-client
     #   requests
     #   types-requests
-uv==0.7.9
+uv==0.7.10
     # via crewai
 uvicorn==0.34.3
     # via
@@ -889,10 +681,10 @@ wrapt==1.17.2
     # via
     #   deprecated
     #   opentelemetry-instrumentation
-xlsxwriter==3.2.3
-    # via python-pptx
 yarl==1.20.0
     # via aiohttp
+zep-cloud==2.13.1
+    # via crewai-api (pyproject.toml)
 zipp==3.22.0
     # via importlib-metadata
 zstandard==0.23.0

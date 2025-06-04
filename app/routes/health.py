@@ -4,9 +4,8 @@
 # ---------------------------------------------------------------------------
 from fastapi import APIRouter
 
-health_router = APIRouter() # Cria um roteador FastAPI para o health check
+health_router = APIRouter()
 
-@health_router.get("/health", summary="Verifica a saúde da API") # Define uma rota GET
+@health_router.get("/health", summary="Verifica a saúde da API")
 def get_health():
-    """Rota pública para verificar se a API está viva."""
-    return {"status": "API está operacional"} # Retorna um status de sucesso simples
+    return {"status": "API está operacional"}

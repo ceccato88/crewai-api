@@ -3,24 +3,28 @@
 # Arquivo de configuração YAML para definir as tarefas.
 # ---------------------------------------------------------------------------
 basic_task:
-  name: "Atendimento Básico com Memória Zep"
+  name: "Atendimento Básico com Memória Zep e Data/Hora de SP"
   description: >
-    1. Analise a MENSAGEM DO USUÁRIO (`{message}`).
-    2. Considere o CONTEXTO DA MEMÓRIA ZEP (`{zep_context}`) fornecido.
-    3. Se a mensagem do usuário for uma pergunta ou solicitação que pode ser respondida
-       com o contexto Zep ou conhecimento geral, formule uma resposta direta e clara.
-    4. Se a mensagem do usuário exigir informações atuais ou dados específicos não presentes
-       no contexto Zep, utilize a ferramenta SerperDevTool para buscar na web.
-    5. Formule uma resposta final que cumpra o `expected_output`.
+    A data e hora atuais em São Paulo são: {current_datetime_sp}.
+    1. Analise a MENSAGEM ATUAL DO USUÁRIO (`{message}`).
+    2. Considere o CONTEXTO DA MEMÓRIA ZEP (`{zep_context}`) fornecido, que contém:
+        a. Resultados de uma busca no grafo de conhecimento da Zep (realizada usando a `{message}` como query, com scope, reranker e limit definidos internamente no código).
+        b. O histórico recente das últimas mensagens desta sessão (com timestamps de São Paulo).
+    3. Se a `{message}` do usuário puder ser respondida com base no `{zep_context}` (fatos do grafo ou histórico)
+       ou conhecimento geral, formule uma resposta direta e clara.
+    4. Se a `{message}` exigir informações atuais ou dados específicos não presentes no `{zep_context}`,
+       utilize a ferramenta SerperDevTool para buscar na web.
+    5. Formule uma resposta final que cumpra o `expected_output`, integrando informações de todas as fontes relevantes.
   expected_output: >
     Uma mensagem de resposta para o usuário que:
-    1. Comece com uma saudação amigável (por exemplo, "Olá!", "Oi!").
+    1. Comece com uma saudação amigável.
     2. Responda diretamente à `{message}` do usuário.
-    3. Incorpore informações do `{zep_context}` de forma natural, se relevante para a resposta.
+    3. Incorpore informações relevantes do `{zep_context}` (sejam da busca no grafo ou do histórico de mensagens)
+       de forma natural e útil para a resposta. O histórico da sessão incluirá timestamps no fuso de São Paulo.
+       O contexto do grafo Zep incluirá os parâmetros de busca (query, scope, reranker, limit) usados.
     4. Se a SerperDevTool foi usada, mencione brevemente a informação encontrada que embasou a resposta.
-    5. Seja clara, concisa e com palavras de fácil entendimento.
-    6. Termine de forma cordial.
-  markdown: true # Indica que a saída da tarefa pode usar formatação Markdown
-  agent: basic_agent # Associa esta tarefa ao 'basic_agent' definido em agents.yaml
-  # Os inputs {message} e {zep_context} são passados para kickoff_async
-  # e o CrewAI os injeta aqui automaticamente.
+    5. Se a data/hora atual ({current_datetime_sp}) for relevante para a resposta, mencione-a.
+    6. Seja clara, concisa e com palavras de fácil entendimento.
+    7. Termine de forma cordial.
+  markdown: true
+  agent: basic_agent

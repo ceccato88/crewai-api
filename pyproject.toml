@@ -10,13 +10,13 @@ requires-python = ">=3.12"
 dependencies = [
     "crewai>=0.121.1",
     "crewai-tools>=0.46.0",
-    "docling>=2.34.0",
     "fastapi>=0.115.12",
     "pydantic>=2.11.5",
     "pydantic-settings>=2.9.1",
     "pysbd>=0.3.4",
+    "pytz>=2025.2",
     "starlette>=0.46.2",
-    "uvicorn[standard]>=0.34.2",
+    "uvicorn>=0.34.2",
     "websockets>=15.0.1",
-    "zep-cloud>=2.13.0",
+    "zep-cloud>=2.13.1",
 ]
