@@ -3,6 +3,7 @@
 # Ponto de entrada da aplicação FastAPI, configuração de middlewares e rotas.
 # ---------------------------------------------------------------------------
 import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.middleware.cors import CORSMiddleware
@@ -13,6 +14,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+load_dotenv()
 security = HTTPBearer()
 BEARER_TOKEN = os.getenv("BEARER_TOKEN")
 
