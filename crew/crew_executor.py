@@ -132,7 +132,9 @@ async def execute_crew(
         except NotFoundError:
             await zep_client.memory.add_session(session_id=session_id, user_id=user_id)
 
-        user_message_content = inputs["message"]
+        user_message_content = inputs.get("message")
+        if not user_message_content:
+            raise ValueError("Campo 'message' é obrigatório nos inputs.")
         query_for_graph = user_message_content
 
         # Bloco 2: Adicionar mensagem atual do usuário à memória Zep
