@@ -198,5 +198,7 @@ async def execute_crew(
         else:
             logger.warning(f"Resultado do Crew '{crew_name}' (após conversão e strip) é vazio ou None, não será salvo no Zep.")
         return crew_result_text
-    except ValueError as ve: raise
-    except Exception as e: raise
+    except ValueError as ve:
+        raise
+    except Exception as e:
+        raise
