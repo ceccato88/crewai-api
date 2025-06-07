@@ -58,7 +58,7 @@ async def format_graph_search_results_to_context(search_results, scope: str, rer
 
     if not found_results:
         context_parts.append("Nenhum resultado relevante (nó ou aresta) encontrado na busca do grafo Zep com os parâmetros especificados.")
-    
+
     context_parts.append("--- Fim Contexto da Busca no Grafo Zep ---")
     return "\n".join(context_parts)
 
@@ -67,14 +67,14 @@ async def format_session_messages_to_context(session_messages_response, history_
     Formata as mensagens da sessão Zep em uma string de contexto, com timestamps no fuso de São Paulo.
     """
     context_parts = [f"--- Início Histórico Recente da Sessão Zep (últimas {history_limit} mensagens, Fuso Horário de São Paulo) ---"]
-    
+
     if session_messages_response and session_messages_response.messages:
         for msg in session_messages_response.messages:
             timestamp_str = "Timestamp indisponível"
             if msg.created_at:
                 try:
                     # Python 3.7+ datetime.fromisoformat lida com 'Z'
-                    dt_utc = datetime.fromisoformat(msg.created_at.replace("Z", "+00:00")) 
+                    dt_utc = datetime.fromisoformat(msg.created_at.replace("Z", "+00:00"))
                     dt_sao_paulo = dt_utc.astimezone(SAO_PAULO_TZ)
                     timestamp_str = dt_sao_paulo.strftime("%d/%m/%Y %H:%M:%S %Z%z")
                 except ValueError:
@@ -88,14 +88,14 @@ async def format_session_messages_to_context(session_messages_response, history_
             elif hasattr(msg, 'role_type') and msg.role_type:
                 # Se role_type for um enum (como zep_cloud.types.RoleType), acesse .value
                 if isinstance(msg.role_type, RoleType) and hasattr(msg.role_type, 'value'):
-                        role_display = msg.role_type.value.capitalize()
+                    role_display = msg.role_type.value.capitalize()
                 else: # Caso contrário, tente converter para string
-                        role_display = str(msg.role_type).capitalize()
-            
+                    role_display = str(msg.role_type).capitalize()
+
             context_parts.append(f"  [{timestamp_str}] {role_display}: {msg.content}")
     else:
         context_parts.append("Nenhum histórico de mensagens encontrado para esta sessão na Zep.")
-    
+
     context_parts.append("--- Fim Histórico Recente da Sessão Zep ---")
     return "\n".join(context_parts)
 
@@ -140,7 +140,7 @@ async def execute_crew(
         user_zep_message = ZepMessage(role="User", role_type="user", content=user_message_content, user_id=user_id)
         await zep_client.memory.add(session_id, messages=[user_zep_message])
         logger.info(f"Mensagem do usuário '{user_message_content}' (Role: User, RoleType: user) adicionada à sessão {session_id} no Zep.")
-        
+
         # Bloco 3: Recuperar contexto da Zep
         # Parâmetros padrão para busca no grafo Zep
         zep_graph_search_scope: ZepSearchScope = "edges"
@@ -165,7 +165,7 @@ async def execute_crew(
             search_results = await zep_client.graph.search(**search_params_dict)
             graph_search_context_str = await format_graph_search_results_to_context(
                 search_results, scope=zep_graph_search_scope, reranker=zep_graph_search_reranker,
-                limit=zep_graph_search_limit, query=query_for_graph 
+                limit=zep_graph_search_limit, query=query_for_graph
             )
         except Exception as e_graph:
             logger.error(f"Erro ao buscar no grafo Zep: {e_graph}", exc_info=True)
@@ -187,19 +187,19 @@ async def execute_crew(
             f"{graph_search_context_str}\n\n"
             f"{session_history_context_str}"
         )
-        
+
         crew_inputs_for_selected_crew = {
             "message": user_message_content,
             "zep_context": zep_context,
             "current_datetime_sp": current_datetime_sp_str # Adiciona data/hora ao input do crew
         }
-        
+
         logger.info(f"Iniciando Crew '{crew_name}' com inputs: {crew_inputs_for_selected_crew['message']}, contexto_zep_len={len(zep_context)}, data_hora_sp='{current_datetime_sp_str}'")
-        
+
         crew_instance = CrewClass()
         actual_crew_to_run = crew_instance.crew()
         crew_result_text = await actual_crew_to_run.kickoff_async(inputs=crew_inputs_for_selected_crew)
-        
+
         converted_result_text = ""
         if crew_result_text is not None:
             if hasattr(crew_result_text, 'raw') and isinstance(crew_result_text.raw, str):
@@ -212,7 +212,7 @@ async def execute_crew(
                 except Exception as e_conv: # Tratamento de erro aprimorado
                     logger.warning(f"Não foi possível converter crew_result_text para string diretamente: {type(crew_result_text)}. Erro: {e_conv}", exc_info=True)
                     converted_result_text = "" # Fallback para string vazia
-        
+
         final_text_to_save = converted_result_text.strip()
         if final_text_to_save:
             # MODIFICAÇÃO AQUI: Usar string literal "assistant" para role_type
